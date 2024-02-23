@@ -1,0 +1,42 @@
+Colour by Category = 
+VAR L1 = ISINSCOPE(Projects[Project Category])
+VAR L2 = ISINSCOPE(Projects[Project Manager])
+VAR L3 = ISINSCOPE(Projects[Project])
+VAR CatCol =
+SWITCH(
+TRUE(),
+SELECTEDVALUE(Categories[Category]) = "Project Stage",
+CALCULATE (
+    Categories[Colour] ,
+    TREATAS (  VALUES(Projects[Project Stage]) ,  Categories[Value] ),
+    REMOVEFILTERS ( )
+),
+SELECTEDVALUE(Categories[Category]) = "Project Risk",
+CALCULATE (
+    Categories[Colour] ,
+    TREATAS (  VALUES(Projects[Project Risk]) ,  Categories[Value] ),
+    REMOVEFILTERS ( )
+),
+SELECTEDVALUE(Categories[Category]) = "Project Manager",
+CALCULATE (
+    Categories[Colour] ,
+    TREATAS (  VALUES(Projects[Project Manager]) ,  Categories[Value] ),
+    REMOVEFILTERS ( )
+),
+SELECTEDVALUE(Categories[Category]) = "Project Category",
+CALCULATE (
+    Categories[Colour] ,
+    TREATAS (  VALUES(Projects[Project Category]) ,  Categories[Value] ),
+    REMOVEFILTERS ( )
+)
+)
+RETURN
+IF(ISFILTERED(Categories[Category]),
+//result is true
+IF([Gantt between dates (1/0)]<>0,CatCol),
+//result is false
+IF([Gantt between dates (1/0)]<>0,
+SWITCH(
+TRUE(),
+L3, "#638EB090", L2, "#638EB0", L1, "#1F4C71")
+))

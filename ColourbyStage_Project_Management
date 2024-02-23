@@ -1,0 +1,8 @@
+Colour by Stage = 
+IF(ISINSCOPE(Projects[Project]),
+//result is true
+IF([Gantt between dates (1/0)]<>0,
+SWITCH(
+MAX(Projects[Project Stage]),
+"Ideate", "#638EB090", "Plan", "#638EB0", "Execute", "#1F4C71")
+) )
